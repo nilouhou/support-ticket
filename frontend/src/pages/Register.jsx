@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Register() {
 	const [formData, setFormData] = useState({
 		name: "",
@@ -16,7 +18,7 @@ function Register() {
 	const submitHandler = (e) => {
 		e.preventDefault();
 		if (password !== matchPassword) {
-			console.log("oops");
+			toast.error("Passwords do not match");
 		}
 		console.log(formData);
 	};
