@@ -8,6 +8,18 @@ function Register() {
 	});
 
 	const { name, email, password, matchPassword } = formData;
+
+	const changeHandler = (e) => {
+		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+	};
+
+	const submitHandler = (e) => {
+		e.preventDefault();
+		if (password !== matchPassword) {
+			console.log("oops");
+		}
+		console.log(formData);
+	};
 	return (
 		<>
 			<section>
@@ -15,7 +27,7 @@ function Register() {
 				<p>Please Create a new account</p>
 			</section>
 			<section className="form">
-				<form>
+				<form onSubmit={submitHandler}>
 					<div className="form-group">
 						<input
 							type="text"
@@ -23,6 +35,7 @@ function Register() {
 							id="name"
 							value={name}
 							placeholder="Please eneter your name"
+							onChange={changeHandler}
 						/>
 					</div>
 					<div className="form-group">
@@ -32,6 +45,7 @@ function Register() {
 							id="email"
 							value={email}
 							placeholder="Please eneter your email"
+							onChange={changeHandler}
 						/>
 					</div>
 					<div className="form-group">
@@ -40,6 +54,7 @@ function Register() {
 							name="password"
 							id="password"
 							value={password}
+							onChange={changeHandler}
 							placeholder="Please eneter your password"
 						/>
 					</div>
@@ -51,10 +66,13 @@ function Register() {
 							id="matchPassword"
 							value={matchPassword}
 							placeholder="Please confirm your password"
+							onChange={changeHandler}
 						/>
 					</div>
 					<div className="form-group">
-						<div className="btn">Register</div>
+						<button type="submit" className="btn btn-block">
+							Register
+						</button>
 					</div>
 				</form>
 			</section>
