@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { useSelector, useDispatch } from "react-redux";
+import { registerThunk } from "../features/auth/authSlice";
+
 function Register() {
 	const [formData, setFormData] = useState({
 		name: "",
@@ -11,6 +15,9 @@ function Register() {
 
 	const { name, email, password, matchPassword } = formData;
 
+	const dispatch = useDispatch();
+	const auth = useSelector((state) => state.auth);
+
 	const changeHandler = (e) => {
 		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
@@ -20,12 +27,17 @@ function Register() {
 		if (password !== matchPassword) {
 			toast.error("Passwords do not match");
 		}
-		console.log(formData);
+		const userData = {
+			name,
+			email,
+			password,
+		};
+		dispatch(registerThunk(userData));
 	};
 	return (
 		<>
 			<section>
-				<h1>Register</h1>
+				<h1>Register {auth.user}</h1>
 				<p>Please Create a new account</p>
 			</section>
 			<section className="form">
