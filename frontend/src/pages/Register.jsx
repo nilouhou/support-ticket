@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useSelector, useDispatch } from "react-redux";
-import { registerThunk } from "../features/auth/authSlice";
+import { registerThunk, reset } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
 	const [formData, setFormData] = useState({
@@ -16,11 +17,27 @@ function Register() {
 	const { name, email, password, matchPassword } = formData;
 
 	const dispatch = useDispatch();
-	const auth = useSelector((state) => state.auth);
+	const { user, isLoading, isError, isSucess, message } = useSelector(
+		(state) => state.auth
+	);
+
+	const navigate = useNavigate();
 
 	const changeHandler = (e) => {
 		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
+
+	useEffect(() => {
+		if (isError) {
+			toast.error(message);
+		}
+
+		if (isSucess || user) {
+			navigate("/");
+		}
+
+		dispatch(reset());
+	}, [isError, message, isSucess, user, navigate, dispatch]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
@@ -37,7 +54,7 @@ function Register() {
 	return (
 		<>
 			<section>
-				<h1>Register {auth.user}</h1>
+				<h1>Register</h1>
 				<p>Please Create a new account</p>
 			</section>
 			<section className="form">
