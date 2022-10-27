@@ -17,7 +17,7 @@ function Register() {
 	const { name, email, password, matchPassword } = formData;
 
 	const dispatch = useDispatch();
-	const { user, isLoading, isError, isSucess, message } = useSelector(
+	const { user, isError, isSucess, message } = useSelector(
 		(state) => state.auth
 	);
 

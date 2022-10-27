@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import autoServer from "./authServer";
+import authServer from "./authServer";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -11,11 +11,12 @@ const initialState = {
 	message: "",
 };
 
+//Register Thunk
 export const registerThunk = createAsyncThunk(
 	"auth/register",
 	async (user, thunkAPI) => {
 		try {
-			return await autoServer.registerData(user);
+			return await authServer.registerData(user);
 		} catch (error) {
 			const message =
 				error.response?.data?.message || error.message || error.toString();
@@ -23,6 +24,11 @@ export const registerThunk = createAsyncThunk(
 		}
 	}
 );
+
+//Logout Thunk
+export const logoutThunk = createAsyncThunk("auth/logout", async () => {
+	return await authServer.logout();
+});
 
 //auth slice
 export const authSlice = createSlice({
