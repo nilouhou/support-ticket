@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Spinner from "../components/Spinner";
 import { useSelector, useDispatch } from "react-redux";
-import { registerThunk, reset } from "../features/auth/authSlice";
+import { registerThunk } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -17,7 +17,7 @@ function Register() {
 	const { name, email, password, matchPassword } = formData;
 
 	const dispatch = useDispatch();
-	const { user, isError, isSucess, message } = useSelector(
+	const { user, isError, isSucess, message, isLoading } = useSelector(
 		(state) => state.auth
 	);
 
@@ -35,21 +35,26 @@ function Register() {
 		if (isSucess || user) {
 			navigate("/");
 		}
-
-		dispatch(reset());
 	}, [isError, message, isSucess, user, navigate, dispatch]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();
+
 		if (password !== matchPassword) {
 			toast.error("Passwords do not match");
 		}
+
 		const userData = {
 			name,
 			email,
 			password,
 		};
+
 		dispatch(registerThunk(userData));
+
+		if (isLoading) {
+			<Spinner />;
+		}
 	};
 	return (
 		<>

@@ -1,5 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginThunk } from "../features/auth/authSlice";
+import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
+
 function Login() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const { user, isSucess, isError, message, isLoading } = useSelector(
+		(state) => state.auth
+	);
+
+	//Form data and functionality
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
@@ -11,10 +24,29 @@ function Login() {
 		setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 	};
 
+	useEffect(() => {
+		if (isError) {
+			toast.error(message);
+		}
+
+		if (isSucess || user) {
+			navigate("/");
+		}
+	}, [isError, message, isSucess, user, navigate, dispatch]);
+
 	const submitHandler = (e) => {
 		e.preventDefault();
 
-		console.log(formData);
+		const userData = {
+			email,
+			password,
+		};
+
+		dispatch(loginThunk(userData));
+
+		if (isLoading) {
+			<Spinner />;
+		}
 	};
 	return (
 		<>
@@ -47,7 +79,7 @@ function Login() {
 
 					<div className="form-group">
 						<button type="submit" className="btn btn-block">
-							Register
+							Login
 						</button>
 					</div>
 				</form>
