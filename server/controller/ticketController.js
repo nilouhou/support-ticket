@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Ticket = require("../models/ticketModel");
 const User = require("../models/userModel");
 
-// @desc    Get user tickets
+// @desc    Get user All tickets
 // @route   GET /api/tickets
 // @access  Private
 const getTickets = asyncHandler(async (req, res) => {
@@ -14,7 +14,7 @@ const getTickets = asyncHandler(async (req, res) => {
 	res.status(200).json(tickets);
 });
 
-// @desc    Create tickets
+// @desc    Create a ticket
 // @route   POST /api/tickets
 // @access  Private
 const createTicket = asyncHandler(async (req, res) => {
@@ -33,4 +33,66 @@ const createTicket = asyncHandler(async (req, res) => {
 	res.status(201).json(ticket);
 });
 
-module.exports = { getTickets, createTicket };
+// @desc    Get user a signle ticket
+// @route   GET /api/tickets/:id
+// @access  Private
+const getTicket = asyncHandler(async (req, res) => {
+	const ticket = await Ticket.findById(req.params.id);
+	if (!ticket) {
+		res.status(404);
+		throw new Error("No ticket yet");
+	}
+
+	res.status(200).json(ticket);
+});
+
+// @desc    Update user a signle ticket
+// @route   PUT /api/tickets/:id
+// @access  Private
+const deleteTicket = asyncHandler(async (req, res) => {
+	const ticket = await Ticket.findById(req.params.id);
+	if (!ticket) {
+		res.status(404);
+		throw new Error("No ticket yet");
+	}
+
+	if (ticket.user.toString() !== req.user.id) {
+		res.status(401);
+		throw new Error("Not Authorized");
+	}
+	await Ticket.remove();
+	res.status(200).json({ success: true });
+});
+
+// @desc    Delete user a signle ticket
+// @route   DELETE /api/tickets/:id
+// @access  Private
+const updateTicket = asyncHandler(async (req, res) => {
+	const ticket = await Ticket.findById(req.params.id);
+
+	if (!ticket) {
+		res.status(404);
+		throw new Error("No ticket yet");
+	}
+
+	console.log(req.user.id);
+	if (ticket.user.toString() !== req.user.id) {
+		res.status(401);
+		throw new Error("Not Authorized");
+	}
+
+	const updatedTicket = await Ticket.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{ new: true }
+	);
+	res.status(200).json(updatedTicket);
+});
+
+module.exports = {
+	getTickets,
+	createTicket,
+	getTicket,
+	updateTicket,
+	deleteTicket,
+};
