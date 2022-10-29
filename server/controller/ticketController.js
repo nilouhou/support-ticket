@@ -75,7 +75,6 @@ const updateTicket = asyncHandler(async (req, res) => {
 		throw new Error("No ticket yet");
 	}
 
-	console.log(req.user.id);
 	if (ticket.user.toString() !== req.user.id) {
 		res.status(401);
 		throw new Error("Not Authorized");
