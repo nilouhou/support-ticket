@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { errorHandling } from "../../util/errorMessage";
 import authServer from "./authServer";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -18,9 +19,7 @@ export const registerThunk = createAsyncThunk(
 		try {
 			return await authServer.registerData(user);
 		} catch (error) {
-			const message =
-				error.response?.data?.message || error.message || error.toString();
-			return thunkAPI.rejectWithValue(message);
+			return thunkAPI.rejectWithValue(errorHandling(error));
 		}
 	}
 );
@@ -32,9 +31,7 @@ export const loginThunk = createAsyncThunk(
 		try {
 			return await authServer.login(user);
 		} catch (error) {
-			const message =
-				error.response?.data?.message || error.message || error.toString();
-			return thunkAPI.rejectWithValue(message);
+			return thunkAPI.rejectWithValue(errorHandling(error));
 		}
 	}
 );

@@ -1,4 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { errorHandling } from "../../util/errorMessage";
+import ticketService from "./ticketService";
+
+//Thunk to connect to server
+export const createTicket = createAsyncThunk(
+	"ticket/creat",
+	async (ticketData, thunkAPI) => {
+		try {
+			await ticketService.create(ticketData);
+		} catch (error) {
+			thunkAPI.rejectWithValue(errorHandling(error));
+		}
+	}
+);
 
 const initialState = {
 	tickets: [],
