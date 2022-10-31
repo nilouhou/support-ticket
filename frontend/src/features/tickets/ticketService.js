@@ -1,7 +1,19 @@
-import React from "react";
+import axios from "axios";
+//API URL
+const TICKET_URL = "/api/tickets/";
+const createTicket = async (ticketData, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+	const response = await axios.post(TICKET_URL, ticketData, config);
 
-const ticketService = () => {
-	return <div>ticketService</div>;
+	return response.data;
+};
+
+const ticketService = {
+	createTicket,
 };
 
 export default ticketService;

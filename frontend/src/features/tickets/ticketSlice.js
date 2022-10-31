@@ -4,10 +4,11 @@ import ticketService from "./ticketService";
 
 //Thunk to connect to server
 export const createTicket = createAsyncThunk(
-	"ticket/creat",
+	"tickets/create",
 	async (ticketData, thunkAPI) => {
 		try {
-			await ticketService.create(ticketData);
+			const token = thunkAPI.getState().auth.user.token;
+			await ticketService.createTicket(ticketData, token);
 		} catch (error) {
 			thunkAPI.rejectWithValue(errorHandling(error));
 		}
