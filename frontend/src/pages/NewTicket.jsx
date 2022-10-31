@@ -1,15 +1,49 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { reset, createTicket } from "../features/tickets/ticketSlice";
+import Spinner from "../components/Spinner";
 
 const NewTicket = () => {
 	const { user } = useSelector((state) => state.auth);
 	const { name, email } = user;
+
+	const { isSuccess, isError, message, isLoading } = useSelector(
+		(state) => state.tickets
+	);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isError) {
+			toast.error(message);
+		}
+
+		if (isSuccess) {
+			dispatch(reset());
+			navigate("/tickets");
+		}
+
+		dispatch(reset());
+	}, [dispatch, isError, isSuccess, navigate, message]);
+
 	const [product, setProduct] = useState("");
 	const [description, setDescription] = useState("");
 
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
+		console.log(product, description);
+		const ticketData = {
+			product,
+			description,
+		};
+		dispatch(createTicket(ticketData));
 	};
+
+	if (isLoading) {
+		return <Spinner />;
+	}
 
 	return (
 		<>
