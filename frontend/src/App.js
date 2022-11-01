@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import NewTicket from "./pages/NewTicket";
 import PrivateRoute from "./components/PrivateRoute";
 import "./App.css";
+import Tickets from "./pages/Tickets";
 
 function App() {
 	return (
@@ -25,6 +26,14 @@ function App() {
 							element={
 								<PrivateRoute>
 									<NewTicket />
+								</PrivateRoute>
+							}
+						/>
+						<Route
+							path="/tickets"
+							element={
+								<PrivateRoute>
+									<Tickets />
 								</PrivateRoute>
 							}
 						/>
