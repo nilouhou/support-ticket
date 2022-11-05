@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 import BackBtn from "../components/BackBtn";
-import { getTicket } from "../features/tickets/ticketSlice";
+import { closeTicket, getTicket } from "../features/tickets/ticketSlice";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Ticket = () => {
 	const { ticket, message, isError, isSuccess, isLoading } = useSelector(
 		(state) => state.tickets
 	);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { ticketId } = useParams();
 
 	useEffect(() => {
@@ -20,6 +22,12 @@ const Ticket = () => {
 
 		dispatch(getTicket(ticketId));
 	}, [dispatch, message, isError, isSuccess, ticketId]);
+
+	const closeHandler = () => {
+		dispatch(closeTicket(ticketId));
+		navigate("/tickets");
+		toast.success("Your ticket has been closed");
+	};
 
 	if (isLoading) {
 		return <Spinner />;
@@ -46,6 +54,9 @@ const Ticket = () => {
 				</div>
 				<h2>Notes</h2>
 			</header>
+			<button className="btn" onClick={closeHandler}>
+				Close the Ticket
+			</button>
 		</div>
 	);
 };

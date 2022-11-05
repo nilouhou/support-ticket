@@ -41,6 +41,19 @@ export const getTicket = createAsyncThunk(
 	}
 );
 
+//Thunk to connect to server - Close a spefic ticket with ID
+export const closeTicket = createAsyncThunk(
+	"tickets/closeTicket",
+	async (ticketId, thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.user.token;
+			return await ticketService.closeUserTicket(ticketId, token);
+		} catch (error) {
+			return thunkAPI.rejectWithValue(errorHandling(error));
+		}
+	}
+);
+
 const initialState = {
 	tickets: [],
 	ticket: {},
@@ -98,6 +111,15 @@ export const ticketSlice = createSlice({
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;
+			})
+			.addCase(closeTicket.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSuccess = true;
+				state.tickets.map((ticket) => {
+					return ticket._id === action.payload._id
+						? (ticket.status = "closed")
+						: ticket;
+				});
 			});
 	},
 });
