@@ -311,6 +311,15 @@ h3 {
 	font-size: 14px;
 }
 
+.note-stuff {
+	background-color: #fff;
+	color: #778899;
+}
+.note-user {
+	background-color: #778899;
+	color: #fff;
+}
+
 .delete-note {
 	color: red;
 	cursor: pointer;

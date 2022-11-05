@@ -12,12 +12,11 @@ const getNotes = async (ticketId, token) => {
 			Authorization: `Bearer ${token}`,
 		},
 	};
-	const response = await axios.get(url, token, config);
-
+	const response = await axios.get(url, config);
 	return response.data;
 };
 
-//Get all notes/ GET
+//Creat a note/ Post
 const createNotes = async (ticketId, noteData, token) => {
 	//the notes url:api/tickets/:ticketId/notes
 	const url = NOTE_URL + ticketId + "/notes";
@@ -27,7 +26,7 @@ const createNotes = async (ticketId, noteData, token) => {
 			Authorization: `Bearer ${token}`,
 		},
 	};
-	const response = await axios.post(url, noteData, token, config);
+	const response = await axios.post(url, noteData, config);
 
 	return response.data;
 };

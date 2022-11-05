@@ -46,7 +46,6 @@ const Tickets = () => {
 				</div>
 
 				{tickets.map((ticket) => {
-					console.log(ticket.product);
 					return <TicketItem key={ticket._id} ticket={ticket} />;
 				})}
 			</div>

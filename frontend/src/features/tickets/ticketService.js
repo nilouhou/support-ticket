@@ -37,7 +37,6 @@ const getUserTicket = async (ticketId, token) => {
 	};
 
 	const response = await axios.get(TICKET_URL + ticketId, config);
-	console.log(response.data);
 	return response.data;
 };
 

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { errorHandling } from "../../util/errorMessage";
-import { noteService } from "./noteService";
+import noteService from "./noteService";
 
 //Get all notes Thunk
 export const getNotes = createAsyncThunk(
