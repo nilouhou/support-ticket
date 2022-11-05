@@ -3,6 +3,7 @@ const colors = require("colors");
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const router = require("./routes/userRoutes");
+const ticketRouter = require("./routes/ticketRoutes");
 
 const { errorHandler } = require("./middleWares/errorMiddleware");
 const connectDB = require("./config/db");
@@ -21,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use("/api/users", router);
-app.use("/api/tickets", require("./routes/ticketRoutes"));
+app.use("/api/tickets", ticketRouter);
 
 //Error Middleware
 app.use(errorHandler);
