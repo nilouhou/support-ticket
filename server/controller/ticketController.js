@@ -46,8 +46,8 @@ const getTicket = asyncHandler(async (req, res) => {
 	res.status(200).json(ticket);
 });
 
-// @desc    Update user a signle ticket
-// @route   PUT /api/tickets/:id
+// @desc    Delete user a signle ticket
+// @route   DELETE /api/tickets/:id
 // @access  Private
 const deleteTicket = asyncHandler(async (req, res) => {
 	const ticket = await Ticket.findById(req.params.id);
@@ -64,8 +64,8 @@ const deleteTicket = asyncHandler(async (req, res) => {
 	res.status(200).json({ success: true });
 });
 
-// @desc    Delete user a signle ticket
-// @route   DELETE /api/tickets/:id
+// @desc    Update user a signle ticket
+// @route   PUT /api/tickets/:id
 // @access  Private
 const updateTicket = asyncHandler(async (req, res) => {
 	const ticket = await Ticket.findById(req.params.id);

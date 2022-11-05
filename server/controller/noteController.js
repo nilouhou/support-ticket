@@ -46,7 +46,54 @@ const addNotes = asyncHandler(async (req, res) => {
 	res.status(200).json(notes);
 });
 
+// @desc    Update Notes of the ticket
+// @route   PUT /api/tickets/:ticketId/notes
+// @access  Private
+const updateNotes = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user.id);
+	if (!user) {
+		throw new Error("User not found");
+	}
+
+	const ticket = await Ticket.findById(req.params.ticketId);
+
+	if (ticket.user.toString() !== req.user.id) {
+		res.status(401);
+		throw new Error("User not authorized");
+	}
+
+	const updatedNotes = await Note.findOneAndUpdate(
+		req.params.ticketId,
+		req.body,
+		{ new: true }
+	);
+	console.log(updateNotes);
+	res.status(200).json(updatedNotes);
+});
+
+// @desc    Remove Notes of the ticket
+// @route   Delete /api/tickets/:ticketId/notes
+// @access  Private
+const removeNotes = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.user.id);
+	if (!user) {
+		throw new Error("User not found");
+	}
+
+	const ticket = await Ticket.findById(req.params.ticketId);
+
+	if (ticket.user.toString() !== req.user.id) {
+		res.status(401);
+		throw new Error("User not authorized");
+	}
+
+	await Note.remove();
+	res.status(200).json({ success: true });
+});
+
 module.exports = {
 	getNotes,
 	addNotes,
+	updateNotes,
+	removeNotes,
 };
