@@ -60,14 +60,18 @@ const Ticket = () => {
 					<h3>Description of Issue</h3>
 					<p>{ticket.description}</p>
 				</div>
-				<h2>Notes</h2>
-				{notes.map((note) => {
-					console.log(note);
-					return <NoteItem key={note._id} note={note} />;
-				})}
+				{notes.lenght && (
+					<>
+						<h2>Notes</h2>
+						{notes.map((note) => {
+							console.log(note);
+							return <NoteItem key={note._id} note={note} />;
+						})}
+					</>
+				)}
 			</header>
 			{ticket.status !== "closed" && (
-				<button className="btn btn-danger" onClick={closeHandler}>
+				<button className="btn btn-danger btn-block" onClick={closeHandler}>
 					Close the Ticket
 				</button>
 			)}
