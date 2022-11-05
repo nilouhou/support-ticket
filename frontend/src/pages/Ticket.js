@@ -50,13 +50,15 @@ const Ticket = () => {
 				<hr />
 				<div className="ticket-desc">
 					<h3>Description of Issue</h3>
-					<p>{ticket.descirption}</p>
+					<p>{ticket.description}</p>
 				</div>
 				<h2>Notes</h2>
 			</header>
-			<button className="btn" onClick={closeHandler}>
-				Close the Ticket
-			</button>
+			{ticket.status !== "closed" && (
+				<button className="btn btn-danger" onClick={closeHandler}>
+					Close the Ticket
+				</button>
+			)}
 		</div>
 	);
 };
