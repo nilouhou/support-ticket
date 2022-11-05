@@ -44,7 +44,7 @@ const Tickets = () => {
 					<div>Status</div>
 					<div></div>
 				</div>
-				{console.log(tickets)}
+
 				{tickets.map((ticket) => {
 					console.log(ticket.product);
 					return <TicketItem key={ticket._id} ticket={ticket} />;
