@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
@@ -6,9 +6,11 @@ import BackBtn from "../components/BackBtn";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { closeTicket, getTicket } from "../features/tickets/ticketSlice";
-import { getNotes } from "../features/notes/notSlice";
+import { getNotes, addNotes } from "../features/notes/notSlice";
 import { NoteItem } from "../components/NoteItem";
-import TicketModal from "../components/Modal/TicketModal";
+import GeneralModal from "../components/Modal/GeneralModal";
+import NoteForm from "../components/Modal/NoteForm";
+import { isOpen, isClose } from "../features/modal/modalSlice";
 
 const Ticket = () => {
 	const { ticket, message, isError, isSuccess, isLoading } = useSelector(
@@ -18,6 +20,8 @@ const Ticket = () => {
 	const { notes, isLoading: noteIsLoading } = useSelector(
 		(state) => state.notes
 	);
+
+	const { modalIsOpen, modalIsClosed } = useSelector((state) => state.modal);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -36,6 +40,20 @@ const Ticket = () => {
 		dispatch(closeTicket(ticketId));
 		navigate("/tickets");
 		toast.success("Your ticket has been closed");
+	};
+
+	const createNote = (note) => {
+		const noteData = {
+			ticketId,
+			note,
+		};
+		dispatch(addNotes(noteData));
+		dispatch(isClose());
+	};
+
+	const openModal = () => {
+		console.log("hi");
+		dispatch(isOpen());
 	};
 
 	if (isLoading || noteIsLoading) {
@@ -61,7 +79,12 @@ const Ticket = () => {
 					<h3>Description of Issue</h3>
 					<p>{ticket.description}</p>
 				</div>
-				<TicketModal />
+				<button onClick={openModal} className="btn">
+					Add Note
+				</button>
+				<GeneralModal modalIsOpen={modalIsOpen} modalIsClosed={modalIsClosed}>
+					<NoteForm createNote={createNote} />
+				</GeneralModal>
 				{notes.lenght && (
 					<>
 						<h2>Notes</h2>

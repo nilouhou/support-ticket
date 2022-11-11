@@ -20,13 +20,20 @@ const getNotes = async (ticketId, token) => {
 const createNotes = async (ticketId, noteData, token) => {
 	//the notes url:api/tickets/:ticketId/notes
 	const url = NOTE_URL + ticketId + "/notes";
-
 	const config = {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
 	};
-	const response = await axios.post(url, noteData, config);
+
+	//The schema field for note in noteModel is text, we must to have the same name as our fliead name in our table
+	const response = await axios.post(
+		url,
+		{
+			text: noteData,
+		},
+		config
+	);
 
 	return response.data;
 };

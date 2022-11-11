@@ -38,6 +38,7 @@ const addNotes = asyncHandler(async (req, res) => {
 		res.status(401);
 		throw new Error("User not authorized");
 	}
+
 	const notes = await Note.create({
 		ticket: req.params.ticketId,
 		user: req.user.id,
