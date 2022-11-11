@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
@@ -52,7 +52,6 @@ const Ticket = () => {
 	};
 
 	const openModal = () => {
-		console.log("hi");
 		dispatch(isOpen());
 	};
 
@@ -89,7 +88,6 @@ const Ticket = () => {
 					<>
 						<h2>Notes</h2>
 						{notes.map((note) => {
-							console.log(note);
 							return <NoteItem key={note._id} note={note} />;
 						})}
 					</>

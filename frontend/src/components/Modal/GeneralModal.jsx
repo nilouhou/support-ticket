@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Modal from "react-modal";
 
 const GeneralModal = ({ children, modalIsClosed, modalIsOpen }) => {

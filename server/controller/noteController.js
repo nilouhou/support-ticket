@@ -69,7 +69,6 @@ const updateNotes = asyncHandler(async (req, res) => {
 		req.body,
 		{ new: true }
 	);
-	console.log(updateNotes);
 	res.status(200).json(updatedNotes);
 });
 
