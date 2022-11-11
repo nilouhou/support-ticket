@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { closeTicket, getTicket } from "../features/tickets/ticketSlice";
 import { getNotes } from "../features/notes/notSlice";
 import { NoteItem } from "../components/NoteItem";
+import TicketModal from "../components/Modal/TicketModal";
 
 const Ticket = () => {
 	const { ticket, message, isError, isSuccess, isLoading } = useSelector(
@@ -60,6 +61,7 @@ const Ticket = () => {
 					<h3>Description of Issue</h3>
 					<p>{ticket.description}</p>
 				</div>
+				<TicketModal />
 				{notes.lenght && (
 					<>
 						<h2>Notes</h2>
